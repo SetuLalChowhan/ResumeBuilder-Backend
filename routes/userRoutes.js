@@ -11,7 +11,7 @@ const userRoute = express.Router();
 
 userRoute.post("/register", registerUser);
 userRoute.post("/login", loginUser);
-userRoute.post("/logout", protect, getUserById);
-userRoute.post("/resumes", protect, getUserResumes);
+userRoute.get("/resumes", protect, getUserResumes);
+userRoute.get("/user", protect, getUserById);
 
 export default userRoute;

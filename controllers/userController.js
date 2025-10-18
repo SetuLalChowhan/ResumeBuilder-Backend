@@ -93,6 +93,11 @@ export const getUserResumes = async (req, res) => {
     }
 
     const resumes = await Resume.find({ userId });
+
+    if (resumes.length === 0) {
+      return res.status(404).json({ message: "Resumes not found" });
+    }
+    console.log(resumes);
     return res.status(200).json({ message: "Resumes found", resumes });
   } catch (error) {
     return res.status(400).json({ message: error.message });
