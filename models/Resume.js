@@ -23,7 +23,7 @@ const ResumeSchema = new mongoose.Schema({
     type: String,
     default: "3B82F6",
   },
-  professinal_summary: {
+  professional_summary: {
     type: String,
     default: "",
   },
@@ -77,6 +77,9 @@ const ResumeSchema = new mongoose.Schema({
         type: String,
       },
       end_date: {
+        type: String,
+      },
+      description: {
         type: String,
       },
       is_current: {

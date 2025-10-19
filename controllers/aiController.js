@@ -14,7 +14,7 @@ export const enhanceProfessinalSummary = async (req, res) => {
         {
           role: "system",
           content:
-            "You are an expert in resume writing. Your task is to enhance the professinal summary of a resume.The summary should be 1-2 sentences also higligting key skills,experiences, and career objectives.Make it compelling and ATS-friendly. and only return text no options or anything else",
+            "You are an expert in resume writing. Your task is to enhance the professional summary of a resume. The summary should be 1-2 sentences highlighting key skills, experiences, and career objectives. Make it compelling and ATS-friendly. Ensure the summary is written in one paragraph without using *** or /n, and only return the professional summary text.",
         },
         { role: "user", content: userContent },
       ],
@@ -59,6 +59,35 @@ export const enhanceJobDescription = async (req, res) => {
   }
 };
 
+export const enhanceProjectDescription = async(req,res)=>{
+  try{
+    const {userContent} =req.body
+    if(!userContent){
+      return res.status(400).json({message:"Missing required fields"})
+    }
+    const response = await ai.chat.completions.create({
+      model: process.env.OPENAI_MODEL,
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert in resume writing. Your task is to enhance the project details of a resume. The summary should be 1-2 sentences. Ensure the summary is written in one paragraph without using *** or /n, and only return the professional summary text.",
+        },
+        { role: "user", content: userContent },
+      ],
+    });
+
+    const enhancedProjectDescription = response.choices[0].message.content;
+
+    return res
+      .status(200)
+      .json({ message: "Resume enhanced successfully", enhancedProjectDescription });
+
+  }catch(error){
+    return res.status(400).json({ message: error.message });
+  }
+}
+
 export const uploadResume = async (req, res) => {
   try {
     const { resumeText, title } = req.body;
@@ -76,7 +105,7 @@ export const uploadResume = async (req, res) => {
     Provide data in the following JSON format with no additional text before or after:
 
     {
-      professinal_summary: {
+      professional_summary: {
     type: String,
     default: "",
   },
@@ -124,6 +153,9 @@ export const uploadResume = async (req, res) => {
         type: String,
       },
       position: {
+        type: String,
+      },
+       description: {
         type: String,
       },
       start_date: {

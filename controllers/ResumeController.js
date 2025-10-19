@@ -91,6 +91,8 @@ export const updateResume = async (req, res) => {
       resumeDataCopy.personal_info.image = response.url;
     }
 
+
+
     const resume = await Resume.findByIdAndUpdate(
       { userId, _id: resumeId },
       resumeDataCopy,
